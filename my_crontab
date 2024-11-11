@@ -1,2 +1,3 @@
-30 09 * * * /app/belab_scraping/g2b_notice_check/email_push.py
-00 12 * * * /app/belab_scraping/news_letter/summary_update.py
+01 15 * * * /usr/local/bin/python /app/belab_scraping/email_push.py >> /app/belab_scraping/email_push.log
+05 15 * * * /usr/local/bin/python /app/belab_scraping/summary_update.py >> /app/belab_scraping/summary_update.log
+10 15 * * * /usr/local/bin/git_workflow.sh "Auto Commit." >> /app/belab_scraping/git_workflow.log

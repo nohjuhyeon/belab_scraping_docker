@@ -25,10 +25,14 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key
     apt-get install -y google-chrome-stable && \
     rm -rf /var/lib/apt/lists/*
 
-# cron 설치
+# cron 및 tzdata 설치
 RUN apt-get update && \
-    apt-get install -y cron && \
+    apt-get install -y cron tzdata && \
     rm -rf /var/lib/apt/lists/*
+
+# 시간대 설정
+ENV TZ=Asia/Seoul
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
 # 작업 디렉토리 설정
 WORKDIR /app
@@ -40,10 +44,20 @@ ARG DIR_NAME=belab_scraping # 변경대상
 RUN git clone https://github.com/nohjuhyeon/belab_scraping ${DIR_NAME} # 변경대상
 WORKDIR /app/${DIR_NAME}
 
+# Git 사용자 정보 설정
+RUN git config --global user.email "njh2720@gmail.com"
+RUN git config --global user.name "nohjuhyeon"
+
+COPY .env /app/${DIR_NAME}/.env
+
 # Requirements 설치
 COPY requirements.txt /app/requirements.txt
 WORKDIR /app
 RUN pip install -r requirements.txt
+
+# Git 작업 자동화 스크립트 추가
+COPY git_workflow.sh /usr/local/bin/git_workflow.sh
+RUN chmod +x /usr/local/bin/git_workflow.sh
 
 # crontab 파일 추가
 COPY my_crontab /etc/cron.d/my_crontab
@@ -58,6 +72,6 @@ RUN crontab /etc/cron.d/my_crontab
 RUN touch /var/log/cron.log
 
 # 컨테이너 시작 시 cron 실행
-CMD cron && tail -f /var/log/cron.log
+CMD service cron start
 
 # RUN rm -rf .git # 도커 만들어지고나면 주석처리하기

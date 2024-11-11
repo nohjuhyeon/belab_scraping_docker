@@ -2,10 +2,12 @@ version: '3.9'
 services:
   jupyter:
     container_name: belab_scraping_jupyter
-    image: belab_scraping  # Specifies the name for the built image.
+    image: belab_scraping
     build:
       context: .
       dockerfile: Dockerfile
+    env_file:
+      - .env  # Add this line to load environment variables from .env
     environment:
       - JUPYTER_ENABLE_LAB=yes
     ports:
@@ -37,4 +39,4 @@ services:
       - app-network  
 networks:
   app-network:
-    driver: bridge      
+    driver: bridge 
