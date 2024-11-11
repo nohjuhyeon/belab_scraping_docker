@@ -1,8 +1,8 @@
 version: '3.9'
 services:
   jupyter:
-    container_name: bepet_scraping_jupyter
-    image: bepet_scraping  # Specifies the name for the built image.
+    container_name: belab_scraping_jupyter
+    image: belab_scraping  # Specifies the name for the built image.
     build:
       context: .
       dockerfile: Dockerfile
@@ -25,11 +25,14 @@ services:
       - "--NotebookApp.token=''"
       - "--NotebookApp.notebook_dir='/app'"      
   mongodb:
-    image: mongo:7
-    container_name: bepet_scraping_mongodb
-    restart: always
+    image: mongodb/mongodb-atlas-local
+    container_name: belab_scraping_mongodb
+    environment:
+      - MONGODB_INITDB_ROOT_USERNAME=user
+      - MONGODB_INITDB_ROOT_PASSWORD=pass
     ports:
-      - 27017:27017
+      - 27018:27017
+    restart: always
     networks:
       - app-network  
 networks:

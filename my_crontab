@@ -1,0 +1,2 @@
+30 09 * * * /app/belab_scraping/g2b_notice_check/email_push.py
+00 12 * * * /app/belab_scraping/news_letter/summary_update.py
