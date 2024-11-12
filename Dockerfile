@@ -1,15 +1,6 @@
 # Python 3.10 이미지를 기반으로 생성
 FROM python:3.10
 
-# OpenJDK 설치 (예시로 OpenJDK 17을 설치)
-RUN apt-get update && \
-    apt-get install -y openjdk-17-jdk fonts-nanum build-essential libhdf5-dev && \
-    apt-get install -y wget unzip && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
-
-# JAVA_HOME 환경 변수 설정
-ENV JAVA_HOME /usr/lib/jvm/java-17-openjdk-amd64
 
 # 최신 ChromeDriver 설치
 RUN CHROMEDRIVER_VERSION=$(curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE) && \
@@ -48,16 +39,14 @@ WORKDIR /app/${DIR_NAME}
 RUN git config --global user.email "njh2720@gmail.com"
 RUN git config --global user.name "nohjuhyeon"
 
-COPY .env /app/${DIR_NAME}/.env
-
 # Requirements 설치
 COPY requirements.txt /app/requirements.txt
 WORKDIR /app
 RUN pip install -r requirements.txt
 
 # Git 작업 자동화 스크립트 추가
-COPY git_workflow.sh /usr/local/bin/git_workflow.sh
-RUN chmod +x /usr/local/bin/git_workflow.sh
+COPY git_workflow.sh /app/${DIR_NAME}/git_workflow.sh
+RUN chmod +x /app/${DIR_NAME}/git_workflow.sh
 
 # crontab 파일 추가
 COPY my_crontab /etc/cron.d/my_crontab
@@ -72,6 +61,5 @@ RUN crontab /etc/cron.d/my_crontab
 RUN touch /var/log/cron.log
 
 # 컨테이너 시작 시 cron 실행
-CMD service cron start
-
+CMD ["cron", "-f"]
 # RUN rm -rf .git # 도커 만들어지고나면 주석처리하기

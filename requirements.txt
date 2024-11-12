@@ -1,34 +1,11 @@
 selenium
 webdriver_manager
 pymongo
-apscheduler
 newspaper3k
 
-jupyterlab
-
-pyarrow
 pandas
 
-numpy
 
-matplotlib
-seaborn
-scipy
-scikit-learn
-tensorflow
-wget
-konlpy
-pymongo
-python-mecab-ko
-pyLDAvis
-fastapi
-uvicorn
-jinja2
-python-multipart
-python-jose[cryptography]
-passlib[bcrypt]
-pydantic-settings
-xmltodict
 torch
 
 transformers==4.31.0
@@ -39,3 +16,6 @@ python-dotenv
 lxml
 lxml_html_clean
 olefile
+
+oauth2client
+gspread

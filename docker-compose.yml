@@ -1,42 +1,15 @@
 version: '3.9'
 services:
-  jupyter:
-    container_name: belab_scraping_jupyter
+  belab_scraping:
     image: belab_scraping
     build:
       context: .
       dockerfile: Dockerfile
     env_file:
-      - .env  # Add this line to load environment variables from .env
-    environment:
-      - JUPYTER_ENABLE_LAB=yes
-    ports:
-      - 9999:8888
-      - 9001:8000
-    depends_on:
-      - mongodb
+      - .env  # .env 파일에서 환경 변수를 로드
     networks:
-      - app-network      
-    command:
-      - "jupyter"
-      - "lab"
-      - "--ip=0.0.0.0"
-      - "--port=8888"
-      - "--no-browser"
-      - "--allow-root"
-      - "--NotebookApp.token=''"
-      - "--NotebookApp.notebook_dir='/app'"      
-  mongodb:
-    image: mongodb/mongodb-atlas-local
-    container_name: belab_scraping_mongodb
-    environment:
-      - MONGODB_INITDB_ROOT_USERNAME=user
-      - MONGODB_INITDB_ROOT_PASSWORD=pass
-    ports:
-      - 27018:27017
-    restart: always
-    networks:
-      - app-network  
+      - app-network
+    # 필요한 포트와 기타 설정을 여기에 추가하세요
 networks:
   app-network:
-    driver: bridge 
+    driver: bridge
