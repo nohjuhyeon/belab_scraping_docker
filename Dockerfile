@@ -45,8 +45,8 @@ WORKDIR /app
 RUN pip install -r requirements.txt
 
 # Git 작업 자동화 스크립트 추가
-COPY git_workflow.sh /app/${DIR_NAME}/git_workflow.sh
-RUN chmod +x /app/${DIR_NAME}/git_workflow.sh
+COPY git_workflow.sh /app/${DIR_NAME}/function_list/git_workflow.sh
+RUN chmod +x /app/${DIR_NAME}/function_list/git_workflow.sh
 
 # crontab 파일 추가
 COPY my_crontab /etc/cron.d/my_crontab

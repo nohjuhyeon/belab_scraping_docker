@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # .env 파일 로드
-source .env
 
 # 사용법 출력
 if [ $# -eq 0 ]; then
@@ -11,6 +10,8 @@ fi
 
 # 커밋 메시지
 COMMIT_MESSAGE="$1"
+
+cd ${folder_path} || exit
 
 # .env 파일에서 GitHub 사용자 정보 가져오기
 GITHUB_USERNAME=${GITHUB_USERNAME}
@@ -28,9 +29,11 @@ echo "커밋을 생성합니다..."
 git commit -m "$COMMIT_MESSAGE"
 
 # 토큰을 사용하여 push - 수정된 URL 사용 및 브랜치 명시
-git remote add origin https://github.com/nohjuhyeon/belab_scraping.git
 
-git push https://${GITHUB_USERNAME}:${GITHUB_TOKEN}@github.com/nohjuhyeon/belab_scraping.git
+git pull 
+
+git push https://"$GITHUB_USERNAME":"$GITHUB_TOKEN"@github.com/nohjuhyeon/belab_scraping.git
+
 
 # 보안을 위해 토큰이 포함된 URL 제거 (선택 사항 - 방법 1)
 
