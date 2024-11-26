@@ -6,10 +6,26 @@ services:
       context: .
       dockerfile: Dockerfile
     env_file:
-      - .env  # .env 파일에서 환경 변수를 로드
+      - .env
     networks:
       - app-network
-    # 필요한 포트와 기타 설정을 여기에 추가하세요
+    # Bareun API 서버와의 통신을 위한 443 포트 허용
+    ports:
+      - "443:443"
+    # DNS 설정을 위한 extra_hosts 추가
+    extra_hosts:
+      - "api.bareun.ai:host-gateway"
+
+  # 로컬 개발용 Bareun 서버
+  bareun-server:
+    image: bareunai/bareun:latest
+    container_name: bareun
+    ports:
+      - "5757:5757"
+      - "9902:9902"
+    networks:
+      - app-network
+
 networks:
   app-network:
     driver: bridge

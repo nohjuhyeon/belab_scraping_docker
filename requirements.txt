@@ -19,3 +19,17 @@ olefile
 
 oauth2client
 gspread
+
+bareunpy
+scikit-learn
+
+sumy
+konlpy
+keybert
+
+mxnet
+gluonnlp
+tqdm
+sentencepiece
+numpy==1.23.1
+git+https://github.com/SKTBrain/KoBERT.git#egg=kobert_tokenizer&subdirectory=kobert_hf
