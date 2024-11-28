@@ -27,6 +27,7 @@ sumy
 konlpy
 keybert
 
+kss
 mxnet
 gluonnlp
 tqdm
