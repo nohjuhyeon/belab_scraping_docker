@@ -16,14 +16,77 @@ RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key
     apt-get install -y google-chrome-stable && \
     rm -rf /var/lib/apt/lists/*
 
-# cron 및 tzdata 설치
+# cron 및 tzdata, jdk 설치
 RUN apt-get update && \
     apt-get install -y cron tzdata && \
     rm -rf /var/lib/apt/lists/*
 
+
+    
 # 시간대 설정
 ENV TZ=Asia/Seoul
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+
+# download
+RUN wget https://bitbucket.org/eunjeon/mecab-ko/downloads/mecab-0.996-ko-0.9.2.tar.gz
+
+# 압축해제
+RUN tar xvfz mecab-0.996-ko-0.9.2.tar.gz
+
+# install 
+RUN cd mecab-0.996-ko-0.9.2 && \
+    ./configure && \
+    make && \
+    make check && \
+    make install
+
+RUN apt-get install autoconf automake
+
+    # download
+RUN wget https://bitbucket.org/eunjeon/mecab-ko-dic/downloads/mecab-ko-dic-2.1.1-20180720.tar.gz
+    
+    # 압축해제
+RUN tar xvfz mecab-ko-dic-2.1.1-20180720.tar.gz
+    
+    # install 
+# mecab-ko-dic 설치
+# 필요한 패키지 설치
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    mecab \
+    libmecab-dev \
+    curl \
+    xz-utils \
+    file \
+    git \
+    automake \
+    autoconf \
+    libtool \
+    pkg-config
+
+# mecab-ko-dic 설치
+RUN tar xvfz mecab-ko-dic-2.1.1-20180720.tar.gz && \
+    cd mecab-ko-dic-2.1.1-20180720 && \
+    ./configure && \
+    ./autogen.sh && \
+    make && \
+    make install
+
+# 공유 라이브러리 경로 설정
+RUN echo "/usr/local/lib" > /etc/ld.so.conf.d/mecab.conf && \
+    ldconfig
+
+# 환경 변수 설정 (추가 안전장치)
+ENV LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+
+
+
+RUN git clone https://bitbucket.org/eunjeon/mecab-python-0.996.git &&\
+    cd mecab-python-0.996 &&\
+    python setup.py build &&\
+    python setup.py install
+
 
 # 작업 디렉토리 설정
 WORKDIR /app
@@ -59,6 +122,9 @@ RUN crontab /etc/cron.d/my_crontab
 
 # 로그 파일 생성
 RUN touch /var/log/cron.log
+
+
+
 
 # 컨테이너 시작 시 cron 실행
 CMD ["cron", "-f"]
