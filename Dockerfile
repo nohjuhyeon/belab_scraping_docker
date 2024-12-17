@@ -87,6 +87,12 @@ RUN git clone https://bitbucket.org/eunjeon/mecab-python-0.996.git &&\
     python setup.py build &&\
     python setup.py install
 
+COPY user-nnp.csv /mecab-ko-dic-2.1.1-20180720/user-dic/user-nnp.csv
+
+# MeCab 사용자 사전 업데이트
+RUN cd mecab-ko-dic-2.1.1-20180720 && \
+    tools/add-userdic.sh && \
+    make install
 
 # 작업 디렉토리 설정
 WORKDIR /app

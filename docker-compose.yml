@@ -16,16 +16,6 @@ services:
     extra_hosts:
       - "api.bareun.ai:host-gateway"
 
-  # 로컬 개발용 Bareun 서버
-  bareun-server:
-    image: bareunai/bareun:latest
-    container_name: bareun
-    ports:
-      - "5757:5757"
-      - "9902:9902"
-    networks:
-      - app-network
-
 networks:
   app-network:
     driver: bridge
