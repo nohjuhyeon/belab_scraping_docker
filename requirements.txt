@@ -20,7 +20,6 @@ olefile
 oauth2client
 gspread
 
-bareunpy
 scikit-learn
 
 sumy
