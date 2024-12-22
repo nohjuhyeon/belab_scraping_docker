@@ -29,72 +29,80 @@ RUN apt-get update && \
 ENV TZ=Asia/Seoul
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 
+# LibreOffice 설치
+RUN apt-get update && apt-get install -y libreoffice && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# download
-RUN wget https://bitbucket.org/eunjeon/mecab-ko/downloads/mecab-0.996-ko-0.9.2.tar.gz
+# LibreOffice를 활용한 HWP/HWPX 변환 스크립트 설치
+RUN apt-get update && apt-get install -y unoconv && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# 압축해제
-RUN tar xvfz mecab-0.996-ko-0.9.2.tar.gz
 
-# install 
-RUN cd mecab-0.996-ko-0.9.2 && \
-    ./configure && \
-    make && \
-    make check && \
-    make install
+# # download
+# RUN wget https://bitbucket.org/eunjeon/mecab-ko/downloads/mecab-0.996-ko-0.9.2.tar.gz
 
-RUN apt-get install autoconf automake
+# # 압축해제
+# RUN tar xvfz mecab-0.996-ko-0.9.2.tar.gz
 
-    # download
-RUN wget https://bitbucket.org/eunjeon/mecab-ko-dic/downloads/mecab-ko-dic-2.1.1-20180720.tar.gz
+# # install 
+# RUN cd mecab-0.996-ko-0.9.2 && \
+#     ./configure && \
+#     make && \
+#     make check && \
+#     make install
+
+# RUN apt-get install autoconf automake
+
+#     # download
+# RUN wget https://bitbucket.org/eunjeon/mecab-ko-dic/downloads/mecab-ko-dic-2.1.1-20180720.tar.gz
     
-    # 압축해제
-RUN tar xvfz mecab-ko-dic-2.1.1-20180720.tar.gz
+#     # 압축해제
+# RUN tar xvfz mecab-ko-dic-2.1.1-20180720.tar.gz
     
-    # install 
-# mecab-ko-dic 설치
-# 필요한 패키지 설치
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    mecab \
-    libmecab-dev \
-    curl \
-    xz-utils \
-    file \
-    git \
-    automake \
-    autoconf \
-    libtool \
-    pkg-config
+#     # install 
+# # mecab-ko-dic 설치
+# # 필요한 패키지 설치
+# RUN apt-get update && apt-get install -y \
+#     build-essential \
+#     mecab \
+#     libmecab-dev \
+#     curl \
+#     xz-utils \
+#     file \
+#     git \
+#     automake \
+#     autoconf \
+#     libtool \
+#     pkg-config
 
-# mecab-ko-dic 설치
-RUN tar xvfz mecab-ko-dic-2.1.1-20180720.tar.gz && \
-    cd mecab-ko-dic-2.1.1-20180720 && \
-    ./configure && \
-    ./autogen.sh && \
-    make && \
-    make install
+# # mecab-ko-dic 설치
+# RUN tar xvfz mecab-ko-dic-2.1.1-20180720.tar.gz && \
+#     cd mecab-ko-dic-2.1.1-20180720 && \
+#     ./configure && \
+#     ./autogen.sh && \
+#     make && \
+#     make install
 
-# 공유 라이브러리 경로 설정
-RUN echo "/usr/local/lib" > /etc/ld.so.conf.d/mecab.conf && \
-    ldconfig
+# # 공유 라이브러리 경로 설정
+# RUN echo "/usr/local/lib" > /etc/ld.so.conf.d/mecab.conf && \
+#     ldconfig
 
-# 환경 변수 설정 (추가 안전장치)
-ENV LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+# # 환경 변수 설정 (추가 안전장치)
+# ENV LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 
 
 
-RUN git clone https://bitbucket.org/eunjeon/mecab-python-0.996.git &&\
-    cd mecab-python-0.996 &&\
-    python setup.py build &&\
-    python setup.py install
+# RUN git clone https://bitbucket.org/eunjeon/mecab-python-0.996.git &&\
+#     cd mecab-python-0.996 &&\
+#     python setup.py build &&\
+#     python setup.py install
 
-COPY user-nnp.csv /mecab-ko-dic-2.1.1-20180720/user-dic/user-nnp.csv
+# COPY user-nnp.csv /mecab-ko-dic-2.1.1-20180720/user-dic/user-nnp.csv
 
-# MeCab 사용자 사전 업데이트
-RUN cd mecab-ko-dic-2.1.1-20180720 && \
-    tools/add-userdic.sh && \
-    make install
+# # MeCab 사용자 사전 업데이트
+# RUN cd mecab-ko-dic-2.1.1-20180720 && \
+#     tools/add-userdic.sh && \
+#     make install
 
 # 작업 디렉토리 설정
 WORKDIR /app
