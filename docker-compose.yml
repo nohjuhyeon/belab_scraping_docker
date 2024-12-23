@@ -15,7 +15,7 @@ services:
     # DNS 설정을 위한 extra_hosts 추가
     extra_hosts:
       - "api.bareun.ai:host-gateway"
-
+    container_name: bemon_scraping  # 원하는 컨테이너 이름
 networks:
   app-network:
     driver: bridge
