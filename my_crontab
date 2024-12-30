@@ -1,3 +1,4 @@
-00 09 * * * /usr/local/bin/python /app/belab_scraping/email_push.py >> /app/belab_scraping/log_list/g2b_notice_update.txt
-10 09 * * * /usr/local/bin/python /app/belab_scraping/summary_update.py >> /app/belab_scraping/log_list/summary_update.txt
-20 09 * * * /usr/local/bin/python /app/belab_scraping/git_hub_commit.py >> /app/belab_scraping/log_list/git_hub_commit.txt 2>&1
+30 10 * * * /usr/local/bin/python /app/belab_scraping/g2b_notice_email_push.py >> /app/belab_scraping/log_list/g2b_notice_update.txt
+00 */3 * * * /usr/local/bin/python /app/belab_scraping/g2b_notice_update.py >> /app/belab_scraping/log_list/g2b_notice_update.txt
+15 09 * * * /usr/local/bin/python /app/belab_scraping/summary_update.py >> /app/belab_scraping/log_list/summary_update.txt
+30 */3 * * * /usr/local/bin/python /app/belab_scraping/git_hub_commit.py >> /app/belab_scraping/log_list/git_hub_commit.txt 2>&1
