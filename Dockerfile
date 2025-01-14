@@ -143,6 +143,7 @@ RUN crontab /etc/cron.d/my_crontab
 RUN touch /var/log/cron.log
 
 
+RUN printenv | grep -v '^_' >> /etc/environment
 
 
 # 컨테이너 시작 시 cron 실행
