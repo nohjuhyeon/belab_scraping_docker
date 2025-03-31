@@ -35,3 +35,7 @@ numpy==1.23.1
 git+https://github.com/SKTBrain/KoBERT.git#egg=kobert_tokenizer&subdirectory=kobert_hf
 gdown
 langchain
+langchain_community
+langchain_openai
+langchain_core
+langchain_ollama
