@@ -142,6 +142,7 @@ RUN crontab /etc/cron.d/my_crontab
 # 로그 파일 생성
 RUN touch /var/log/cron.log
 
+COPY .env /app/{DIR_NAME}/.env
 
 RUN printenv | grep -v '^_' >> /etc/environment
 

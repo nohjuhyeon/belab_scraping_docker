@@ -1,3 +1,4 @@
 30 09 * * 1-5 /usr/local/bin/python /app/belab_scraping/g2b_notice_email_push.py >> /app/belab_scraping/log_list/g2b_notice_update.txt
 00 */4 * * * /usr/local/bin/python /app/belab_scraping/g2b_notice_update.py >> /app/belab_scraping/log_list/g2b_notice_update.txt
 0 2-23/4 * * * /usr/local/bin/python /app/belab_scraping/summary_update.py >> /app/belab_scraping/log_list/summary_update.txt
+33 13 * * * /usr/local/bin/python /app/belab_scraping/g2b_notice_update.py >> /app/belab_scraping/log_list/g2b_notice_update.txt
