@@ -143,8 +143,8 @@ RUN crontab /etc/cron.d/my_crontab
 RUN touch /var/log/cron.log
 
 COPY .env /app/{DIR_NAME}/.env
-
-RUN printenv | grep -v '^_' >> /etc/environment
+COPY .env /etc/environment
+RUN source /etc/environment
 
 
 # 컨테이너 시작 시 cron 실행
