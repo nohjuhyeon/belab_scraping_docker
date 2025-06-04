@@ -37,6 +37,7 @@ RUN apt-get update && apt-get install -y libreoffice && \
 RUN apt-get update && apt-get install -y unoconv && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
+
 # 작업 디렉토리 설정
 WORKDIR /app
 
@@ -74,7 +75,7 @@ RUN touch /var/log/cron.log
 
 COPY .env /app/{DIR_NAME}/.env
 COPY .env /etc/environment
-RUN source /etc/environment
+RUN . /etc/environment
 
 
 # 컨테이너 시작 시 cron 실행
